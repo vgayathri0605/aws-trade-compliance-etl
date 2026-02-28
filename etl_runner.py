@@ -127,13 +127,9 @@
 
 
 
-import psycopg2
-import csv
-from datetime import datetime
 
-job_name = "trade_etl"
-start_time = datetime.now()
-rejected_rows = 0
+import psycopg2
+from datetime import datetime
 
 try:
     conn = psycopg2.connect(
@@ -142,89 +138,39 @@ try:
         user="postgres",
         password="Sql123"
     )
+
     cursor = conn.cursor()
 
-    print("Connected to database.")
+    print("Connected to database successfully!")
 
-    with open("trade_data.csv", "r") as file:
-        reader = csv.DictReader(file)
+    # Start transaction
+    job_start = datetime.now()
 
-        for row in reader:
-            try:
-                portfolio_id = int(row["portfolio_id"])
-                trade_amount = float(row["trade_amount"])
-                trade_date = row["trade_date"]
-                instrument = row["instrument"]
+    # Insert sample trade
+    insert_query = """
+    INSERT INTO compliance.trades 
+    (portfolio_id, trade_date, instrument, trade_amount)
+    VALUES (1, CURRENT_DATE, 'ERROR_TEST', 500000);
+    """
 
-                # Basic validation rules
-                if portfolio_id <= 0:
-                    raise ValueError("Invalid portfolio_id")
+    cursor.execute(insert_query)
+    print("Trade inserted.")
 
-                if trade_amount <= 0:
-                    raise ValueError("Trade amount must be positive")
-
-                if not trade_date:
-                    raise ValueError("Missing trade_date")
-
-                insert_query = """
-                INSERT INTO compliance.trades 
-                (portfolio_id, trade_date, instrument, trade_amount)
-                VALUES (%s, %s, %s, %s);
-                """
-
-                cursor.execute(insert_query, (
-                    portfolio_id,
-                    trade_date,
-                    instrument,
-                    trade_amount
-                ))
-
-            except Exception as row_error:
-                rejected_rows += 1
-                print(f"Rejected row: {row} | Reason: {row_error}")
-                continue
-
-    # Run compliance procedure
+    # Run compliance check
     cursor.execute("SELECT compliance.run_compliance_check();")
+    print("Compliance check executed.")
+
+    # Commit only if everything succeeds
     conn.commit()
 
-    end_time = datetime.now()
-
-    # Log SUCCESS
-    cursor.execute("""
-        INSERT INTO compliance.etl_job_log 
-        (job_name, start_time, end_time, status, error_message)
-        VALUES (%s, %s, %s, %s, %s);
-    """, (
-        job_name,
-        start_time,
-        end_time,
-        "SUCCESS",
-        f"Rejected rows: {rejected_rows}"
-    ))
-
-    conn.commit()
-
-    print(f"ETL job completed. Rejected rows: {rejected_rows}")
+    print("Transaction committed successfully!")
 
 except Exception as e:
-    end_time = datetime.now()
-
-    cursor.execute("""
-        INSERT INTO compliance.etl_job_log 
-        (job_name, start_time, end_time, status, error_message)
-        VALUES (%s, %s, %s, %s, %s);
-    """, (
-        job_name,
-        start_time,
-        end_time,
-        "FAILED",
-        str(e)
-    ))
-
+    print("Error occurred:", e)
     conn.rollback()
-    print("Job failed:", e)
+    print("Transaction rolled back.")
 
 finally:
     cursor.close()
     conn.close()
+    print("Connection closed.")
