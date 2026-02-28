@@ -250,7 +250,7 @@
 #     conn.close()
 #     print("Connection closed.")
 
-
+import shutil
 import psycopg2
 import csv
 import os
@@ -318,6 +318,13 @@ try:
                         continue
 
             print(f"{file} loaded successfully.")
+    # ============================================
+        # MOVE FILE TO ARCHIVE AFTER SUCCESS
+        # ============================================
+            archive_path = os.path.join("s3_bucket", "archive", file)
+            shutil.move(file_path, archive_path)
+            print(f"{file} moved to archive.")
+            
 
     # ============================================
     # RUN COMPLIANCE PROCEDURE
