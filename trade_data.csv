@@ -1,0 +1,4 @@
+portfolio_id,trade_date,instrument,trade_amount
+1,2026-02-27,AAPL,150000
+2,2026-02-27,US Bonds,600000
+3,2026-02-27,Options,100000
