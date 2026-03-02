@@ -1,23 +1,30 @@
-AWS Trade Compliance ETL (Serverless)
-Project Overview:
-This project implements a serverless ETL pipeline on AWS to process trade compliance CSV files automatically when uploaded to S3.
+# AWS Trade Compliance ETL (Serverless)
 
-Architecture:
+## Project Overview
+This project implements a serverless ETL pipeline on AWS to automatically process trade compliance CSV files when uploaded to Amazon S3.
+
+## Architecture
 S3 → Lambda → CloudWatch
 
-Workflow:
-Upload CSV to S3 bucket
-Lambda automatically triggers
-CSV file is parsed
-Trade validation rules applied
-Results logged to CloudWatch
+## Workflow
+1. CSV file uploaded to S3 bucket
+2. Lambda function triggers automatically
+3. File is parsed and validated
+4. Trade compliance rules applied
+5. Results logged to CloudWatch
 
-Technologies Used:
-Python
-AWS Lambda
-Amazon S3
-IAM
-CloudWatch
+## Technologies Used
+- Python
+- AWS Lambda
+- Amazon S3
+- IAM
+- Amazon CloudWatch
 
-Resume Statement:
-Designed and deployed a serverless AWS ETL pipeline using S3-triggered Lambda with IAM-based security and CloudWatch monitoring.
+## Key Features
+- Event-driven serverless architecture
+- Automated compliance validation
+- Error handling and logging
+- Free Tier cost optimized deployment
+
+## Resume Statement
+Designed and deployed a serverless AWS ETL pipeline using S3-triggered Lambda with IAM-based security and CloudWatch monitoring for automated trade compliance processing.
