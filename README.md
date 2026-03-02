@@ -13,6 +13,9 @@ S3 → Lambda → CloudWatch
 4. Trade compliance rules applied
 5. Results logged to CloudWatch
 
+## Sample Input Data
+A simulated trade feed CSV representing portfolio trades exported from a trading system. Includes portfolio type, instrument, and trade amount fields used for compliance validation.
+
 ## Technologies Used
 - Python
 - AWS Lambda

@@ -1,0 +1,6 @@
+portfolio_id,portfolio_type,trade_date,instrument,trade_amount,currency
+101,Equity,2026-03-01,AAPL,5000,USD
+102,FixedIncome,2026-03-01,US Bonds,150000,USD
+103,HighRisk,2026-03-01,Options,250000,USD
+104,Equity,2026-03-02,TSLA,-5000,USD
+105,HighRisk,2026-03-02,Futures,300000,USD
