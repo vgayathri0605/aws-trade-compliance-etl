@@ -29,5 +29,3 @@ A simulated trade feed CSV representing portfolio trades exported from a trading
 - Error handling and logging
 - Free Tier cost optimized deployment
 
-## Resume Statement
-Designed and deployed a serverless AWS ETL pipeline using S3-triggered Lambda with IAM-based security and CloudWatch monitoring for automated trade compliance processing.
